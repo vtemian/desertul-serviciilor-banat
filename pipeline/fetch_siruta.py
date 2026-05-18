@@ -16,10 +16,16 @@ def main():
     if fmt in ("xls", "xlsx"):
         raw_path = MANUAL_DIR / f"siruta_register_raw.{fmt}"
         raw_path.write_bytes(r.content)
-        df = pd.read_excel(io.BytesIO(r.content), dtype=str)
+        # Source xls layout: rows 0-2 blank, row 3 main headers, rows 4-5 blank,
+        # row 6 sub-headers (Cod/Nume for Tipul UAT), row 7 column-letter labels
+        # (a,b,c,...), row 8+ real data. 8 raw columns; col 0 and col 7 are blank.
+        df = pd.read_excel(io.BytesIO(r.content), dtype=str, header=None, skiprows=8)
+        df.columns = ["_blank0", "cod_judet", "judet", "tip_cod", "tip_nume", "siruta", "denumire", "_blank1"]
+        df = df[["cod_judet", "judet", "tip_cod", "tip_nume", "siruta", "denumire"]]
+        df = df.dropna(how="all").reset_index(drop=True)
         out = MANUAL_DIR / "siruta_register.csv"
         df.to_csv(out, index=False)
-        print(f"Wrote {raw_path} ({raw_path.stat().st_size} bytes) and {out} ({out.stat().st_size} bytes, {len(df)} rows)")
+        print(f"Wrote {raw_path} ({raw_path.stat().st_size} bytes) and {out} ({out.stat().st_size} bytes, {len(df)} rows, cols={list(df.columns)})")
     else:
         out = MANUAL_DIR / "siruta_register.csv"
         out.write_bytes(r.content)
