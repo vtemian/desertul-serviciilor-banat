@@ -26,7 +26,7 @@ const TRANSLATIONS = {
   },
   en: {
     "brand.title": "Service Desert, Banat",
-    "brand.tagline": "Investment, not abolition.",
+    "brand.tagline": "Investment, not closure.",
     "view.composite": "Overall access",
     "view.school": "Schools",
     "view.gp": "Family doctors",
@@ -114,6 +114,7 @@ function initMap() {
 }
 
 let selectedFeatureId = null;
+let selectedFeature = null;
 
 function setupLayers(services) {
   map.addSource("uats", { type: "geojson", data: uatsGeo, generateId: true });
@@ -210,6 +211,7 @@ function highlightSelected(featureId) {
 }
 
 function renderDetail(feature) {
+  selectedFeature = feature;
   const p = feature.properties;
   const panel = document.getElementById("detail-panel");
   panel.classList.remove("hidden");
@@ -306,6 +308,7 @@ function openFromHash() {
     document.getElementById("lang-toggle").textContent = lang === "ro" ? "EN" : "RO";
     applyI18n();
     renderStory(vignettes);
+    if (selectedFeature) renderDetail(selectedFeature);  // refresh open panel labels
     if (window.plausible) window.plausible("language_change", { props: { project: "desertul", lang } });
   });
 
