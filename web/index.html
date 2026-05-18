@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Deșertul de servicii, Banat</title>
+  <meta name="description" content="Acces la servicii publice în UAT-urile județului Timiș. Investiție, nu desființare." />
+  <meta property="og:title" content="Deșertul de servicii, Banat" />
+  <meta property="og:description" content="Investiție, nu desființare." />
+  <meta property="og:image" content="/assets/og-image.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer data-domain="timistransparent.ro" src="https://plausible.io/js/script.tagged-events.js"></script>
+</head>
+<body>
+  <header id="top-bar">
+    <h1 data-i18n="brand.title">Deșertul de servicii, Banat</h1>
+    <p data-i18n="brand.tagline">Investiție, nu desființare.</p>
+    <nav>
+      <button data-view="composite" class="active" data-i18n="view.composite">Acces total</button>
+      <button data-view="school" data-i18n="view.school">Școli</button>
+      <button data-view="gp" data-i18n="view.gp">Medici de familie</button>
+      <button data-view="hospital" data-i18n="view.hospital">Spitale</button>
+      <button id="lang-toggle">EN</button>
+      <button id="open-methodology" data-i18n="nav.methodology">Metodologie</button>
+    </nav>
+  </header>
+  <main>
+    <div id="map" role="application" aria-label="Hartă acces servicii"></div>
+    <aside id="story-panel">
+      <h2 data-i18n="story.title">Cei mai prost serviți cinci</h2>
+      <ol id="story-list"></ol>
+    </aside>
+    <aside id="detail-panel" class="hidden" aria-live="polite"></aside>
+    <div id="legend">
+      <strong data-i18n="legend.title">Scor compozit</strong>
+      <div class="ramp"></div>
+      <small data-i18n="legend.distance">Distanțe în linie dreaptă.</small>
+    </div>
+  </main>
+  <footer>
+    <p data-i18n="footer.sources">Sursa: SIIIR (Ministerul Educației, 2016), CNAS / CAS Timiș, ANCPI, INS Recensământ 2021.</p>
+    <p data-i18n="footer.disclaimer">Acest site este o inițiativă civică independentă, nu reprezintă o poziție oficială PNL. Nu propune desființarea localităților.</p>
+  </footer>
+  <dialog id="methodology-modal"></dialog>
+  <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
