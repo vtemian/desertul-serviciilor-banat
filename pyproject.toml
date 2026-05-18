@@ -16,6 +16,7 @@ dependencies = [
   "beautifulsoup4==4.12.2",
   "pdfplumber==0.10.3",
   "openpyxl==3.1.2",
+  "osm2geojson==0.2.5",
   "playwright==1.40.0",
 ]
 
