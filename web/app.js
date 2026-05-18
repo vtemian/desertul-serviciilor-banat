@@ -297,6 +297,9 @@ function openFromHash() {
     b.addEventListener("click", () => setView(b.dataset.view)),
   );
 
+  window.map = map;
+  window.__map_ready = true;
+
   document.getElementById("lang-toggle").addEventListener("click", () => {
     lang = lang === "ro" ? "en" : "ro";
     document.documentElement.lang = lang;
