@@ -32,7 +32,12 @@ def fetch():
 
 
 def load_localities() -> list[dict]:
-    df = pd.read_excel(SRC, sheet_name="LOCALITATI ", dtype=str, header=1)
+    xl = pd.ExcelFile(SRC)
+    # Sheet name has a trailing space upstream; match by stripped form to survive a future fix.
+    sheet = next((s for s in xl.sheet_names if s.strip().upper() == "LOCALITATI"), None)
+    if sheet is None:
+        raise RuntimeError(f"No LOCALITATI sheet in {SRC}; got {xl.sheet_names}")
+    df = pd.read_excel(xl, sheet_name=sheet, dtype=str, header=1)
     df.columns = ["cod_judet", "denumire_uat", "siruta", "pop_rezidenta",
                   "_unused", "loc_dispersate", "loc_izolate"][: len(df.columns)]
     df = df.fillna("")  # pd.read_excel leaves empty cells as float NaN despite dtype=str
@@ -44,7 +49,8 @@ def main():
     fetch()
     rows = load_localities()
     timis = [r for r in rows if r["judet_code"] == "37"]
-    assert 95 <= len(timis) <= 105, f"Expected ~99 Timiș UATs, got {len(timis)}"
+    if not 95 <= len(timis) <= 105:
+        raise RuntimeError(f"Expected ~99 Timiș UATs, got {len(timis)}")
     out = INTERMEDIATE_DIR / "population.csv"
     with out.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["siruta", "name", "judet_code", "pop_total"])

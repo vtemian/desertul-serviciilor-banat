@@ -58,7 +58,8 @@ def main():
         raw_path.write_text(json.dumps(osm))
     fc_raw = osm2geojson.json2geojson(osm)
     fc = normalize_features(fc_raw)
-    assert 95 <= len(fc["features"]) <= 105, f"Expected ~99 UATs, got {len(fc['features'])}"
+    if not 95 <= len(fc["features"]) <= 105:
+        raise RuntimeError(f"Expected ~99 UATs, got {len(fc['features'])}")
     out = INTERMEDIATE_DIR / "uats_timis.geojson"
     out.write_text(json.dumps(fc))
     print(f"Wrote {len(fc['features'])} UATs to {out}")

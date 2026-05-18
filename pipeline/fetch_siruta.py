@@ -16,13 +16,26 @@ def main():
     if fmt in ("xls", "xlsx"):
         raw_path = MANUAL_DIR / f"siruta_register_raw.{fmt}"
         raw_path.write_bytes(r.content)
-        # Source xls layout: rows 0-2 blank, row 3 main headers, rows 4-5 blank,
-        # row 6 sub-headers (Cod/Nume for Tipul UAT), row 7 column-letter labels
-        # (a,b,c,...), row 8+ real data. 8 raw columns; col 0 and col 7 are blank.
-        df = pd.read_excel(io.BytesIO(r.content), dtype=str, header=None, skiprows=8)
+        # Probe for the header row by content rather than hardcoding skiprows.
+        # Real data sits 2 rows below "Cod judet" (sub-header + column-letter row).
+        probe = pd.read_excel(io.BytesIO(r.content), dtype=str, header=None, nrows=20)
+        header_row = next(
+            (i for i, row in probe.iterrows()
+             if row.astype(str).str.contains("Cod judet", case=False, na=False).any()),
+            None,
+        )
+        if header_row is None:
+            raise RuntimeError("SIRUTA xls layout changed: no 'Cod judet' header found in first 20 rows")
+        df = pd.read_excel(io.BytesIO(r.content), dtype=str, header=None, skiprows=header_row + 5)
         df.columns = ["_blank0", "cod_judet", "judet", "tip_cod", "tip_nume", "siruta", "denumire", "_blank1"]
         df = df[["cod_judet", "judet", "tip_cod", "tip_nume", "siruta", "denumire"]]
         df = df.dropna(how="all").reset_index(drop=True)
+        # Fail loud if rows are misaligned (catches a future layout shift before garbage hits git).
+        siruta_ok = df["siruta"].fillna("").str.match(r"^\d{1,7}$").mean()
+        if siruta_ok < 0.95:
+            raise RuntimeError(
+                f"SIRUTA column looks misaligned: only {siruta_ok:.0%} of rows match numeric pattern. "
+                "Upstream xls layout may have changed.")
         out = MANUAL_DIR / "siruta_register.csv"
         df.to_csv(out, index=False)
         print(f"Wrote {raw_path} ({raw_path.stat().st_size} bytes) and {out} ({out.stat().st_size} bytes, {len(df)} rows, cols={list(df.columns)})")
