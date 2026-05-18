@@ -1,0 +1,59 @@
+{
+  "vignettes": [
+    {
+      "siruta": "158733",
+      "name": "Sânpetru Mare",
+      "composite_score": 42.4,
+      "population": 3160,
+      "headline": {
+        "ro": "În Sânpetru Mare, cei aproximativ 3.160 locuitori au în medie 3.7 km până la cea mai apropiată școală. (Numărul medicilor de familie va fi adăugat în v0.1.)",
+        "en": "In Sânpetru Mare, roughly 3,160 residents live an average of 3.7 km from the nearest school. (Family-doctor counts will be added in v0.1.)"
+      },
+      "draft_only": true
+    },
+    {
+      "siruta": "155724",
+      "name": "Beba Veche",
+      "composite_score": 43.4,
+      "population": 1407,
+      "headline": {
+        "ro": "În Beba Veche, cei aproximativ 1.407 locuitori au în medie 3.4 km până la cea mai apropiată școală. (Numărul medicilor de familie va fi adăugat în v0.1.)",
+        "en": "In Beba Veche, roughly 1,407 residents live an average of 3.4 km from the nearest school. (Family-doctor counts will be added in v0.1.)"
+      },
+      "draft_only": true
+    },
+    {
+      "siruta": "157086",
+      "name": "Gătaia",
+      "composite_score": 44.5,
+      "population": 5775,
+      "headline": {
+        "ro": "În Gătaia, cei aproximativ 5.775 locuitori au în medie 4.0 km până la cea mai apropiată școală. (Numărul medicilor de familie va fi adăugat în v0.1.)",
+        "en": "In Gătaia, roughly 5,775 residents live an average of 4.0 km from the nearest school. (Family-doctor counts will be added in v0.1.)"
+      },
+      "draft_only": true
+    },
+    {
+      "siruta": "156259",
+      "name": "Cenad",
+      "composite_score": 46.6,
+      "population": 4085,
+      "headline": {
+        "ro": "În Cenad, cei aproximativ 4.085 locuitori au în medie 3.1 km până la cea mai apropiată școală. (Numărul medicilor de familie va fi adăugat în v0.1.)",
+        "en": "In Cenad, roughly 4,085 residents live an average of 3.1 km from the nearest school. (Family-doctor counts will be added in v0.1.)"
+      },
+      "draft_only": true
+    },
+    {
+      "siruta": "156712",
+      "name": "Dudeștii Vechi",
+      "composite_score": 50.3,
+      "population": 3965,
+      "headline": {
+        "ro": "În Dudeștii Vechi, cei aproximativ 3.965 locuitori au în medie 2.7 km până la cea mai apropiată școală. (Numărul medicilor de familie va fi adăugat în v0.1.)",
+        "en": "In Dudeștii Vechi, roughly 3,965 residents live an average of 2.7 km from the nearest school. (Family-doctor counts will be added in v0.1.)"
+      },
+      "draft_only": true
+    }
+  ]
+}
