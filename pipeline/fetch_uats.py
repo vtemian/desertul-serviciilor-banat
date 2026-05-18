@@ -23,7 +23,11 @@ def fetch_overpass() -> dict:
     r = requests.post(OVERPASS_URL, data={"data": OVERPASS_QUERY},
                       headers={"User-Agent": USER_AGENT}, timeout=180)
     r.raise_for_status()
-    return r.json()
+    try:
+        return r.json()
+    except ValueError as e:
+        # Overpass under load returns 200 OK with HTML "runtime error" bodies.
+        raise RuntimeError(f"Overpass returned non-JSON (likely overloaded). First 500 chars:\n{r.text[:500]}") from e
 
 
 def normalize_features(fc: dict) -> dict:
