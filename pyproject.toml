@@ -18,6 +18,7 @@ dependencies = [
   "openpyxl==3.1.2",
   "osm2geojson==0.2.5",
   "playwright==1.40.0",
+  "xlrd==2.0.1",
 ]
 
 [project.optional-dependencies]
