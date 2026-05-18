@@ -9,15 +9,15 @@ def nearest_distance_m(origin: Point, services: gpd.GeoDataFrame):
     if services is None or services.empty:
         return float("nan"), ""
     dists = services.geometry.distance(origin)
-    idx = dists.idxmin()
-    return float(dists.iloc[idx]), str(services.loc[idx, "id"])
+    idx = dists.idxmin()  # label, not position; use .loc to honour gaps from upstream dropna.
+    return float(dists.loc[idx]), str(services.loc[idx, "id"])
 
 
 def load_services(name: str) -> gpd.GeoDataFrame | None:
     path = INTERMEDIATE_DIR / f"{name}.csv"
     if not path.exists():
         return None
-    df = pd.read_csv(path).dropna(subset=["lat", "lng"])
+    df = pd.read_csv(path).dropna(subset=["lat", "lng"]).reset_index(drop=True)
     if df.empty:
         return None
     df["id"] = df.index.astype(str)
