@@ -13,18 +13,20 @@ def render(row, name_to_siruta, pop_by_siruta) -> dict:
     gp_cnt = row.get("gp_count")
     gp_known = isinstance(gp_cnt, (int, float)) and str(gp_cnt) not in ("", "nan")
     gp_cnt_int = int(gp_cnt) if gp_known else None
+    pop_ro = f"{pop:,}".replace(",", ".")  # Romanian thousands separator
+    pop_en = f"{pop:,}"
     return {
         "siruta": siruta,
         "name": name,
         "composite_score": round(float(row["composite_score"]), 1),
         "population": pop,
         "headline": {
-            "ro": (f"În {name}, cei aproximativ {pop:,} locuitori au în medie "
+            "ro": (f"În {name}, cei aproximativ {pop_ro} locuitori au în medie "
                    f"{d_school_km:.1f} km până la cea mai apropiată școală"
                    + (f" și {gp_cnt_int} medic{'i' if gp_cnt_int != 1 else ''} de familie pe întreaga comună." if gp_known
                       else ". (Numărul medicilor de familie va fi adăugat în v0.1.)")
-                  ).replace(",", "."),
-            "en": (f"In {name}, roughly {pop:,} residents live an average of "
+                  ),
+            "en": (f"In {name}, roughly {pop_en} residents live an average of "
                    f"{d_school_km:.1f} km from the nearest school"
                    + (f", with {gp_cnt_int} family doctor{'s' if gp_cnt_int != 1 else ''} serving the entire commune." if gp_known
                       else ". (Family-doctor counts will be added in v0.1.)")
